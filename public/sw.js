@@ -1,10 +1,10 @@
 const CACHE_NAME = 'arboreal-breaker-v1';
 const ASSETS_TO_CACHE = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/icon.svg',
-  '/icon_maskable.svg'
+  './',
+  './index.html',
+  './manifest.json',
+  './icon.svg',
+  './icon_maskable.svg'
 ];
 
 // Install Event: cache core app shell
@@ -78,7 +78,7 @@ self.addEventListener('fetch', (event) => {
         .catch(() => {
           // If network is completely offline and requesting navigation, fall back to index.html
           if (event.request.mode === 'navigate') {
-            return caches.match('/index.html');
+            return caches.match('./index.html');
           }
         });
     })

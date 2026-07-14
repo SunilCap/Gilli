@@ -2,8 +2,8 @@
   "name": "Arboreal Brick Breaker",
   "short_name": "Arboreal Breaker",
   "description": "A serene, tactile brick breaker with wood, sand, and clay elements.",
-  "start_url": "/",
-  "id": "/",
+  "start_url": "./",
+  "id": "./",
   "display": "standalone",
   "background_color": "#f2ede4",
   "theme_color": "#7b8a6d",
@@ -11,25 +11,25 @@
   "categories": ["games", "arcade"],
   "icons": [
     {
-      "src": "/icon.svg",
+      "src": "./icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"
     },
     {
-      "src": "/icon_maskable.svg",
+      "src": "./icon_maskable.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "maskable"
     },
     {
-      "src": "/icon.svg",
+      "src": "./icon.svg",
       "sizes": "192x192",
       "type": "image/svg+xml",
       "purpose": "any"
     },
     {
-      "src": "/icon.svg",
+      "src": "./icon.svg",
       "sizes": "512x512",
       "type": "image/svg+xml",
       "purpose": "any"

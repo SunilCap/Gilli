@@ -12,7 +12,7 @@ createRoot(document.getElementById('root')!).render(
 // Register Service Worker for PWA (Progressive Web App) offline support
 if ('serviceWorker' in navigator && import.meta.env.PROD) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
+    navigator.serviceWorker.register('./sw.js')
       .then((registration) => {
         console.log('ServiceWorker registered with scope: ', registration.scope);
       })
@@ -23,7 +23,7 @@ if ('serviceWorker' in navigator && import.meta.env.PROD) {
 } else if ('serviceWorker' in navigator) {
   // In development, we can register it or print a friendly log
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
+    navigator.serviceWorker.register('./sw.js')
       .then((registration) => {
         console.log('ServiceWorker registered in DEV with scope: ', registration.scope);
       })

@@ -23,12 +23,15 @@ import {
   Sparkles,
   Download,
   X,
-  Sliders
+  Sliders,
+  DollarSign,
+  Home
 } from 'lucide-react';
 import { GameStatus, PowerUpType, ScoreEntry } from './types';
 import { LEVELS } from './levels';
 import { GameCanvas, GameCanvasHandle } from './components/GameCanvas';
 import { sound } from './components/SoundManager';
+import { AdSenseBanner, MonetizationConfigPanel } from './components/AdSenseBanner';
 
 export default function App() {
   const canvasRef = useRef<GameCanvasHandle>(null);
@@ -113,6 +116,7 @@ export default function App() {
   // PWA installation states
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
   const [showInstallBtn, setShowInstallBtn] = useState<boolean>(false);
+  const [showMonetizationModal, setShowMonetizationModal] = useState<boolean>(false);
 
   // Listen for custom installation prompt
   useEffect(() => {
@@ -272,7 +276,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className="h-screen max-h-screen w-screen flex flex-col overflow-hidden bg-[#090d16] text-slate-100 font-sans selection:bg-amber-500/30 selection:text-white relative select-none">
+    <div className="h-[100dvh] max-h-[100dvh] w-screen flex flex-col overflow-hidden bg-[#090d16] text-slate-100 font-sans selection:bg-amber-500/30 selection:text-white relative select-none">
       
       {/* Dynamic Background Mesh Grid */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(245,158,11,0.12),rgba(0,0,0,0))] pointer-events-none" />
@@ -319,6 +323,8 @@ export default function App() {
             >
               {soundMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4 text-amber-500" />}
             </button>
+
+
           </div>
         </div>
       </header>
@@ -343,23 +349,39 @@ export default function App() {
               </div>
             </div>
 
-            {/* Lives Hearts Representation */}
-            <div className="flex items-center gap-1">
-              {Array.from({ length: 3 }).map((_, i) => (
-                <Heart
-                  key={i}
-                  className={`w-4 h-4 transition-all ${
-                    i < lives 
-                      ? 'text-amber-500 fill-amber-500 drop-shadow-[0_0_4px_rgba(245,158,11,0.5)]' 
-                      : 'text-slate-800 fill-transparent'
-                  }`}
-                />
-              ))}
+            {/* Lives Hearts Representation & Home Button */}
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-1">
+                {Array.from({ length: 3 }).map((_, i) => (
+                  <Heart
+                    key={i}
+                    className={`w-4 h-4 transition-all ${
+                      i < lives 
+                        ? 'text-amber-500 fill-amber-500 drop-shadow-[0_0_4px_rgba(245,158,11,0.5)]' 
+                        : 'text-slate-800 fill-transparent'
+                    }`}
+                  />
+                ))}
+              </div>
+
+              {(status === GameStatus.PLAYING || status === GameStatus.PAUSED) && (
+                <>
+                  <div className="h-4 w-[1px] bg-slate-800" />
+                  <button
+                    onClick={() => setStatus(GameStatus.START)}
+                    className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-[#1e141a] border border-slate-800 hover:border-amber-500/35 text-slate-300 hover:text-amber-400 transition-all cursor-pointer active:scale-95 text-[10px] font-bold font-mono"
+                    title="Quit to Menu"
+                  >
+                    <Home className="w-3.5 h-3.5" />
+                    <span>LOBBY</span>
+                  </button>
+                </>
+              )}
             </div>
           </div>
 
           {/* Dynamic Scaling Game Canvas Wrapper (flex-1 forces auto-sizing inside viewport) */}
-          <div className="relative flex-1 min-h-0 rounded-[24px] overflow-hidden bg-[#0a0f1d] border border-slate-800 shadow-[inset_0_4px_24px_rgba(0,0,0,0.8)] select-none flex items-center justify-center" id="game-canvas-container">
+          <div className="relative flex-1 min-h-[240px] xs:min-h-[300px] sm:min-h-[360px] md:min-h-[400px] rounded-[24px] overflow-hidden bg-[#0a0f1d] border border-slate-800 shadow-[inset_0_4px_24px_rgba(0,0,0,0.8)] select-none flex items-center justify-center" id="game-canvas-container">
             
             <GameCanvas
               ref={canvasRef}
@@ -381,31 +403,31 @@ export default function App() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="absolute inset-0 bg-slate-950/90 backdrop-blur-md flex flex-col items-center justify-center p-4 text-center z-10"
+                  className="absolute inset-0 bg-slate-950/90 backdrop-blur-md flex flex-col items-center justify-center p-3 sm:p-4 text-center z-10 overflow-y-auto"
                   id="overlay-start"
                 >
                   <motion.div
                     initial={{ scale: 0.95, y: 10 }}
                     animate={{ scale: 1, y: 0 }}
                     transition={{ type: "spring", stiffness: 120 }}
-                    className="max-w-xs sm:max-w-md w-full bg-slate-900 p-5 sm:p-7 rounded-[28px] border border-slate-800 shadow-2xl relative overflow-hidden"
+                    className="max-w-xs sm:max-w-md w-full max-h-full bg-slate-900 p-4 sm:p-7 rounded-[28px] border border-slate-800 shadow-2xl relative overflow-y-auto flex flex-col justify-center items-center my-auto"
                   >
-                    <div className="w-12 h-12 mx-auto rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center mb-4">
-                      <Gamepad2 className="w-6 h-6 text-amber-500" />
+                    <div className="w-8 h-8 sm:w-12 sm:h-12 mx-auto rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center mb-2 sm:mb-4 shrink-0">
+                      <Gamepad2 className="w-4 h-4 sm:w-6 sm:h-6 text-amber-500" />
                     </div>
 
-                    <h2 className="text-2xl sm:text-3xl font-mono font-black text-amber-500 uppercase tracking-widest mb-1.5">
+                    <h2 className="text-xl sm:text-3xl font-mono font-black text-amber-500 uppercase tracking-widest mb-1 sm:mb-1.5 shrink-0">
                       Gilli
                     </h2>
-                    <p className="text-slate-400 text-xs mb-5 leading-relaxed font-sans max-w-xs mx-auto">
+                    <p className="text-slate-400 text-[10px] sm:text-xs mb-3 sm:mb-5 leading-relaxed font-sans max-w-xs mx-auto overflow-y-auto">
                       An energetic danda-striker retro arcade experience featuring elegant cracking blocks, sliding paddle physics, and cascading power-ups.
                     </p>
 
                     <button
                       onClick={() => startNewGame(currentLevelIdx)}
-                      className="w-full py-3 px-5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 text-xs font-black tracking-widest uppercase transition-all transform active:scale-95 shadow-lg shadow-amber-500/25 cursor-pointer flex items-center justify-center gap-1.5"
+                      className="w-full py-2.5 sm:py-3 px-5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 text-[11px] sm:text-xs font-black tracking-widest uppercase transition-all transform active:scale-95 shadow-lg shadow-amber-500/25 cursor-pointer flex items-center justify-center gap-1.5 shrink-0"
                     >
-                      <Play className="w-4 h-4 fill-slate-950" />
+                      <Play className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-slate-950" />
                       STRIKE DANDA
                     </button>
                   </motion.div>
@@ -418,20 +440,20 @@ export default function App() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="absolute inset-0 bg-slate-950/80 backdrop-blur-xs flex flex-col items-center justify-center z-10"
+                  className="absolute inset-0 bg-slate-950/80 backdrop-blur-xs flex flex-col items-center justify-center p-3 text-center z-10 overflow-y-auto"
                   id="overlay-paused"
                 >
                   <motion.div
                     initial={{ scale: 0.95 }}
                     animate={{ scale: 1 }}
-                    className="text-center bg-slate-900 border border-slate-800 p-6 rounded-[24px] max-w-xs shadow-2xl"
+                    className="max-w-xs w-full max-h-full bg-slate-900 border border-slate-800 p-4 sm:p-6 rounded-[24px] shadow-2xl overflow-y-auto flex flex-col justify-center items-center my-auto"
                   >
-                    <h3 className="text-xl font-mono font-black text-amber-500 uppercase tracking-widest mb-1">STRIKE PAUSED</h3>
-                    <p className="text-slate-400 text-[10px] mb-4 font-mono">Press SPACE or Tap below to resume</p>
+                    <h3 className="text-lg sm:text-xl font-mono font-black text-amber-500 uppercase tracking-widest mb-1 shrink-0">STRIKE PAUSED</h3>
+                    <p className="text-slate-400 text-[9px] sm:text-[10px] mb-3 sm:mb-4 font-mono shrink-0">Press SPACE or Tap below to resume</p>
                     
                     <button
                       onClick={() => canvasRef.current?.togglePause()}
-                      className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 text-xs font-black tracking-wider transition-all cursor-pointer active:scale-95 shadow-md"
+                      className="w-full py-2 sm:py-2.5 px-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 text-[11px] sm:text-xs font-black tracking-wider transition-all cursor-pointer active:scale-95 shadow-md shrink-0"
                     >
                       RESUME
                     </button>
@@ -728,6 +750,13 @@ export default function App() {
 
           </div>
 
+          {/* Bottom Persistent Horizontal Sponsor/Ad Banner */}
+          <AdSenseBanner 
+            slot="gilli-bottom-banner" 
+            type="horizontal" 
+            className="mt-2 shrink-0"
+          />
+
           {/* MOBILE CONTROLLER DECK & TOUCH TRACKPAD (lg:hidden) */}
           <div className="lg:hidden mt-2 bg-slate-950 border border-slate-800 p-2.5 rounded-2xl shadow-xs flex flex-col gap-2 shrink-0" id="mobile-controller-deck">
             
@@ -916,6 +945,13 @@ export default function App() {
             </div>
           </div>
 
+          {/* Desktop Sidebar Sponsor/Ad Unit */}
+          <AdSenseBanner 
+            slot="gilli-sidebar-ad" 
+            type="square" 
+            className="shrink-0"
+          />
+
           {/* High Scores Board */}
           <div className="bg-slate-950 border border-slate-800 rounded-[24px] p-4.5 shadow-sm flex-1 flex flex-col min-h-0 text-slate-200">
             <div className="flex items-center gap-1.5 mb-3">
@@ -971,6 +1007,29 @@ export default function App() {
       <footer className="hidden sm:block py-2 text-center border-t border-slate-900 text-[10px] text-slate-550 font-mono bg-slate-950/40 shrink-0">
         &copy; 2026 GILLI RETRO ARCADE
       </footer>
+
+      {/* Monetization settings modal overlay */}
+      <AnimatePresence>
+        {showMonetizationModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 z-50"
+            id="monetization-modal-overlay"
+          >
+            <motion.div
+              initial={{ scale: 0.95, y: 15 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.95, y: 15 }}
+              className="max-w-md w-full bg-slate-900 rounded-[28px] border border-slate-800 shadow-2xl overflow-hidden"
+              id="monetization-modal-container"
+            >
+              <MonetizationConfigPanel onClose={() => setShowMonetizationModal(false)} />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
     </div>
   );
