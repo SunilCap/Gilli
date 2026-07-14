@@ -1,0 +1,6 @@
+{
+  "name": "Gilli",
+  "description": "An energetic retro-themed danda-striker arcade game featuring elegant neon and bronze elements, responsive gilli collision physics, cracking block damage, and beautiful retro sound synthesizers.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

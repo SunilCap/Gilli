@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient: Clay and Sand tones -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fcfaf7" />
+      <stop offset="100%" stop-color="#f2ede4" />
+    </linearGradient>
+    
+    <!-- Sage Green Gradient for the main icon body -->
+    <linearGradient id="sageGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#99a88c" />
+      <stop offset="100%" stop-color="#7b8a6d" />
+    </linearGradient>
+
+    <!-- Terracotta Clay ball gradient -->
+    <radialGradient id="clayGrad" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#e09d84" />
+      <stop offset="40%" stop-color="#c7866d" />
+      <stop offset="100%" stop-color="#9c5f49" />
+    </radialGradient>
+
+    <!-- Wood / Bark Brown Gradient for paddle -->
+    <linearGradient id="woodGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8c857b" />
+      <stop offset="50%" stop-color="#a39c92" />
+      <stop offset="100%" stop-color="#736d64" />
+    </linearGradient>
+
+    <!-- Shadow filter for beautiful soft depth -->
+    <filter id="softShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#4a463f" flood-opacity="0.12" />
+    </filter>
+    <filter id="ballGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#c7866d" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <!-- Maskable Solid Background (must cover the entire canvas, no border, no rx to allow masking) -->
+  <rect x="0" y="0" width="512" height="512" fill="url(#bgGrad)" />
+
+  <!-- Scale entire visual content to 80% to fit within maskable safe area (centered at 256,256) -->
+  <g transform="translate(51.2, 51.2) scale(0.8)">
+    
+    <!-- Abstract Tree Rings Background Pattern -->
+    <g stroke="#e6dfd3" stroke-width="3" fill="none" opacity="0.8">
+      <circle cx="256" cy="256" r="180" />
+      <circle cx="256" cy="256" r="140" stroke-dasharray="10, 10" />
+      <circle cx="256" cy="256" r="100" />
+      <circle cx="256" cy="256" r="60" stroke-dasharray="4, 4" />
+    </g>
+
+    <!-- Central Sage Green Leaf Emblem / Shield -->
+    <g filter="url(#softShadow)">
+      <path d="M 256,90 
+               C 340,160 380,240 350,330 
+               C 320,410 256,430 256,430 
+               C 256,430 192,410 162,330 
+               C 132,240 172,160 256,90 Z" 
+            fill="url(#sageGrad)" />
+    </g>
+
+    <!-- Leaf Veins & Sacred Geometry Accent (Ochre Gold) -->
+    <path d="M 256,110 L 256,410" stroke="#cca752" stroke-width="5" stroke-linecap="round" opacity="0.9" />
+    <path d="M 256,180 C 285,200 310,195 325,180" stroke="#cca752" stroke-width="3.5" stroke-linecap="round" fill="none" opacity="0.8" />
+    <path d="M 256,240 C 290,265 315,255 335,235" stroke="#cca752" stroke-width="3.5" stroke-linecap="round" fill="none" opacity="0.8" />
+    <path d="M 256,300 C 285,325 305,320 320,305" stroke="#cca752" stroke-width="3.5" stroke-linecap="round" fill="none" opacity="0.8" />
+    <path d="M 256,180 C 227,200 202,195 187,180" stroke="#cca752" stroke-width="3.5" stroke-linecap="round" fill="none" opacity="0.8" />
+    <path d="M 256,240 C 222,265 197,255 177,235" stroke="#cca752" stroke-width="3.5" stroke-linecap="round" fill="none" opacity="0.8" />
+    <path d="M 256,300 C 227,325 207,320 192,305" stroke="#cca752" stroke-width="3.5" stroke-linecap="round" fill="none" opacity="0.8" />
+
+    <!-- Stylized Wooden Paddle -->
+    <rect x="146" y="360" width="220" height="32" rx="16" fill="url(#woodGrad)" stroke="#4a463f" stroke-width="3.5" />
+    <line x1="176" y1="376" x2="336" y2="376" stroke="rgba(255,255,255,0.15)" stroke-width="2" />
+
+    <!-- Bouncing Clay Ball with Glow -->
+    <g filter="url(#ballGlow)">
+      <circle cx="256" cy="220" r="32" fill="url(#clayGrad)" stroke="#4a463f" stroke-width="3.5" />
+      <circle cx="244" cy="208" r="8" fill="#ffffff" opacity="0.45" />
+    </g>
+
+  </g>
+</svg>
